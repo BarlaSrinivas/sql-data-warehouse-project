@@ -82,7 +82,7 @@ TRUNCATE TABLE gold.dim_customers;
 GO
 
 BULK INSERT gold.dim_customers
-FROM 'C:\sql\edl_project\gold.dim_customers.csv'
+FROM 'C:\Srini_SQL\dwh_project\datasets\eda_data\gold.dim_customers.csv' -- find these csv files in the datasets folder under eda_data
 WITH (
 	FIRSTROW = 2,
 	FIELDTERMINATOR = ',',
@@ -94,7 +94,7 @@ TRUNCATE TABLE gold.dim_products;
 GO
 
 BULK INSERT gold.dim_products
-FROM 'C:\sql\edl_project\gold.dim_products.csv'
+FROM 'C:\Srini_SQL\dwh_project\datasets\eda_data\gold.dim_products.csv' -- find these csv files in the datasets folder under eda_data
 WITH (
 	FIRSTROW = 2,
 	FIELDTERMINATOR = ',',
@@ -106,7 +106,7 @@ TRUNCATE TABLE gold.fact_sales;
 GO
 
 BULK INSERT gold.fact_sales
-FROM 'C:\sql\edl_project\gold.fact_sales.csv'
+FROM 'C:\Srini_SQL\dwh_project\datasets\eda_data\gold.fact_sales.csv' -- find these csv files in the datasets folder under eda_data
 WITH (
 	FIRSTROW = 2,
 	FIELDTERMINATOR = ',',
