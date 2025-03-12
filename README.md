@@ -74,6 +74,7 @@ The data architecture for this project follows Medallion Architecture **Bronze**
 1. **Bronze Layer**: Stores raw data as-is from the source systems. Data is ingested from CSV Files into SQL Server Database.
 2. **Silver Layer**: This layer includes data cleansing, standardization, and normalization processes to prepare data for analysis.
 3. **Gold Layer**: Houses business-ready data modeled into a star schema required for reporting and analytics.
+![Data Flow](docs/images/3_layers.png)
 
 ---
 
@@ -84,7 +85,7 @@ data-warehouse-project/
 │
 ├── datasets/                           # Raw datasets used for the project (ERP and CRM data)
 │
-├── docs/                               # Project documentation and architecture details
+├── docs/images                               # Project documentation and architecture details
 │   ├── etl.drawio                      # Draw.io file shows all different techniquies and methods of ETL
 │   ├── data_architecture.drawio        # Draw.io file shows the project's architecture
 │   ├── data_catalog.md                 # Catalog of datasets, including field descriptions and metadata
