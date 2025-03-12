@@ -29,6 +29,83 @@ BEGIN
         PRINT '================================================';
 
 		PRINT '------------------------------------------------';
+		PRINT 'Loading ERP Tables';
+		PRINT '------------------------------------------------';
+
+        -- Loading erp_cust_az12
+        SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: silver.erp_cust_az12';
+		TRUNCATE TABLE silver.erp_cust_az12;
+		PRINT '>> Inserting Data Into: silver.erp_cust_az12';
+		INSERT INTO silver.erp_cust_az12 (
+			cid,
+			bdate,
+			gen
+		)
+		SELECT
+			CASE
+				WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid)) -- Remove 'NAS' prefix if present
+				ELSE cid
+			END AS cid, 
+			CASE
+				WHEN bdate > GETDATE() THEN NULL
+				ELSE bdate
+			END AS bdate, -- Set future birthdates to NULL
+			CASE
+				WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+				WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+				ELSE 'n/a'
+			END AS gen -- Normalize gender values and handle unknown cases
+		FROM bronze.erp_cust_az12;
+	    SET @end_time = GETDATE();
+        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+        PRINT '>> -------------';
+
+        -- Loading erp_loc_a101
+        SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: silver.erp_loc_a101';
+		TRUNCATE TABLE silver.erp_loc_a101;
+		PRINT '>> Inserting Data Into: silver.erp_loc_a101';
+		INSERT INTO silver.erp_loc_a101 (
+			cid,
+			cntry
+		)
+		SELECT
+			REPLACE(cid, '-', '') AS cid, 
+			CASE
+				WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+				WHEN TRIM(cntry) IN ('US', 'USA') THEN 'United States'
+				WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+				ELSE TRIM(cntry)
+			END AS cntry -- Normalize and Handle missing or blank country codes
+		FROM bronze.erp_loc_a101;
+	    SET @end_time = GETDATE();
+        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+        PRINT '>> -------------';
+		
+		-- Loading erp_px_cat_g1v2
+		SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: silver.erp_px_cat_g1v2';
+		TRUNCATE TABLE silver.erp_px_cat_g1v2;
+		PRINT '>> Inserting Data Into: silver.erp_px_cat_g1v2';
+		INSERT INTO silver.erp_px_cat_g1v2 (
+			id,
+			cat,
+			subcat,
+			maintenance
+		)
+		SELECT
+			id,
+			cat,
+			subcat,
+			maintenance
+		FROM bronze.erp_px_cat_g1v2;
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+        PRINT '>> -------------';
+
+
+		PRINT '------------------------------------------------';
 		PRINT 'Loading CRM Tables';
 		PRINT '------------------------------------------------';
 
@@ -158,82 +235,6 @@ BEGIN
 		FROM bronze.crm_sales_details;
         SET @end_time = GETDATE();
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
-        PRINT '>> -------------';
-
-        -- Loading erp_cust_az12
-        SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: silver.erp_cust_az12';
-		TRUNCATE TABLE silver.erp_cust_az12;
-		PRINT '>> Inserting Data Into: silver.erp_cust_az12';
-		INSERT INTO silver.erp_cust_az12 (
-			cid,
-			bdate,
-			gen
-		)
-		SELECT
-			CASE
-				WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid)) -- Remove 'NAS' prefix if present
-				ELSE cid
-			END AS cid, 
-			CASE
-				WHEN bdate > GETDATE() THEN NULL
-				ELSE bdate
-			END AS bdate, -- Set future birthdates to NULL
-			CASE
-				WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
-				WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
-				ELSE 'n/a'
-			END AS gen -- Normalize gender values and handle unknown cases
-		FROM bronze.erp_cust_az12;
-	    SET @end_time = GETDATE();
-        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
-        PRINT '>> -------------';
-
-		PRINT '------------------------------------------------';
-		PRINT 'Loading ERP Tables';
-		PRINT '------------------------------------------------';
-
-        -- Loading erp_loc_a101
-        SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: silver.erp_loc_a101';
-		TRUNCATE TABLE silver.erp_loc_a101;
-		PRINT '>> Inserting Data Into: silver.erp_loc_a101';
-		INSERT INTO silver.erp_loc_a101 (
-			cid,
-			cntry
-		)
-		SELECT
-			REPLACE(cid, '-', '') AS cid, 
-			CASE
-				WHEN TRIM(cntry) = 'DE' THEN 'Germany'
-				WHEN TRIM(cntry) IN ('US', 'USA') THEN 'United States'
-				WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
-				ELSE TRIM(cntry)
-			END AS cntry -- Normalize and Handle missing or blank country codes
-		FROM bronze.erp_loc_a101;
-	    SET @end_time = GETDATE();
-        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
-        PRINT '>> -------------';
-		
-		-- Loading erp_px_cat_g1v2
-		SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: silver.erp_px_cat_g1v2';
-		TRUNCATE TABLE silver.erp_px_cat_g1v2;
-		PRINT '>> Inserting Data Into: silver.erp_px_cat_g1v2';
-		INSERT INTO silver.erp_px_cat_g1v2 (
-			id,
-			cat,
-			subcat,
-			maintenance
-		)
-		SELECT
-			id,
-			cat,
-			subcat,
-			maintenance
-		FROM bronze.erp_px_cat_g1v2;
-		SET @end_time = GETDATE();
-		PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
 		SET @batch_end_time = GETDATE();
