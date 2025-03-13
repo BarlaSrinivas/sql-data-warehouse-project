@@ -197,7 +197,7 @@ data_analytics_project/
 
 ```
 ---
-## 🛠️ Important Links & Tools:
+## 🛠️ Important Tools & Links used for this project:
 
 Everything is for Free!
 - **[Datasets](datasets/):** Access to the project dataset (csv files).
