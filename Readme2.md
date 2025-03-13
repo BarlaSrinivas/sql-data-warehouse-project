@@ -34,7 +34,8 @@ This end-to-end analytics project consists of three major components:
 - **Comprehensive Reporting**: Generating detailed customer and product performance reports.
 ![Overview](docs/images/Overview.png)
 ---
-
+- **[Notion Project Step](https://www.notion.so/SQL-Data-Warehouse-Project-1b252229f9a180e3b2c2f7ca7c380720?pvs=4):** Access to All Project Phases and Tasks.
+---
 ## Phase 1. 🏗️ Data Warehousing
 
 The data warehousing phase implements a robust foundation for analytics by establishing a modern, scalable architecture that ensures data quality, accessibility, and analytical utility.
@@ -195,6 +196,16 @@ data_analytics_project/
 └── LICENSE # License information
 
 ```
+---
+## 🛠️ Important Links & Tools:
+
+Everything is for Free!
+- **[Datasets](datasets/):** Access to the project dataset (csv files).
+- **[SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads):** Lightweight server for hosting your SQL database.
+- **[SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16):** GUI for managing and interacting with databases.
+- **[Git Repository](https://github.com/):** Set up a GitHub account and repository to manage, version, and collaborate on your code efficiently.
+- **[DrawIO](https://www.drawio.com/):** Design data architecture, models, flows, and diagrams.
+- **[Notion](https://www.notion.com/):** All-in-one tool for project management and organization.
 ---
 ## 🛡️ License
 
